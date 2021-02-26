@@ -1,0 +1,1 @@
+rm -rf ~/.local/lib/python3.8/site-packages/IOniCS*
