@@ -1,5 +1,5 @@
 from dolfin import MeshFunction, facets, cells, entities
-from multiphenics import MeshRestriction
+from multiphenics import MeshRestriction, BlockFunction
 
 
 def create_interface_restriction(subdomains, subdomain_ids):
@@ -55,3 +55,16 @@ def create_subdomains_restriction(subdomains, subdomain_id):
 				for e in entities(c, d):
 					restriction[d][e] = True
 	return restriction
+
+
+class BlockPointSource(object):
+	def __init__(self, block_space, point_sources):
+		self._block_space = block_space
+		self._point_sources = point_sources
+
+	def apply(self, b):
+		f = BlockFunction(self._block_space, b)
+		for i,point_source_list in enumerate(self._point_sources):
+			for point_source in point_source_list:
+				point_source.apply(f.sub(int(i)).vector())
+				f.apply('from subfunctions', int(i))
