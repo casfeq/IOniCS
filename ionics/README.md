@@ -1,3 +1,3 @@
 # IOniCS
 
-IOniCS intends to provide tools for FEniCS, multiphenics and RBniCS problem solving environments.
+IOniCS intends to provide tools for FEniCS and multiphenics problem solving environments.

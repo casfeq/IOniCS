@@ -1,4 +1,4 @@
-from dolfin import cells, facets, vertices, dof_to_vertex_map
+from dolfin import cells, facets, vertices, dof_to_vertex_map, FunctionSpace, Function
 import numpy
 
 
@@ -57,12 +57,12 @@ def assign_tensor_to_facets(t, t_values, tag, boundaries, dim):
 	return t
 
 
-def assign_normal_dist_in_x(f, F, mean, dev, L):
-	vec = f.vector()
-	values = vec.get_local()
-	mesh = F.mesh()
+def interpolate_function_to_mesh(u, mesh, space='CG', degree=1):
+	V = FunctionSpace(mesh, space, degree)
+	v = Function(V)
+	data_vector = v.vector().get_local()
 	for vertex in vertices(mesh):
-		x = vertex.point().x()
-		values[vertex.index()] = mean*(1 + numpy.exp(-((x-L/2)/dev)**2))
-	f.vector()[:] = values[dof_to_vertex_map(F)]
-	return f
+		data_vector[vertex.index()] = u(vertex.point())
+	v.vector().set_local(data_vector)
+	v.vector().apply('insert')
+	return v

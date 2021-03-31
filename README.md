@@ -10,16 +10,12 @@ IOniCS intends to provide tools for FEniCS and multiphenics problem solving envi
 - [multiphenics](https://github.com/mathLab/multiphenics);
 - [numpy](https://pypi.org/project/numpy/) (1.17.4).
 
-You may install IOniCS by running the command:
-
-```bash
-./install.sh
-```
+You may install IOniCS and its dependencies on Ubuntu with the script install.py. For other Linux distro, you may use the script setup.py for installing IOniCS.
 
 ## Uninstallation
 
 You may remove this package by running:
 
 ```bash
-./uninstall.sh
+python3 install.py --remove
 ```

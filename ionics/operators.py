@@ -7,3 +7,7 @@ def gradt(u, n):
 
 def divt(u, n):
 	return tr(sym(gradt(u, n)))
+
+
+def grads(u):
+	return sym(grad(u))
