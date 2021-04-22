@@ -57,12 +57,16 @@ def assign_tensor_to_facets(t, t_values, tag, boundaries, dim):
 	return t
 
 
-def interpolate_function_to_mesh(u, mesh, space='CG', degree=1):
+def interpolate_function_to_mesh(u, mesh, space='CG', degree=1, pointwise=True):
 	V = FunctionSpace(mesh, space, degree)
 	v = Function(V)
 	data_vector = v.vector().get_local()
-	for vertex in vertices(mesh):
-		data_vector[vertex.index()] = u(vertex.point())
+	if pointwise:
+		for vertex in vertices(mesh):
+			data_vector[vertex.index()] = u(vertex.point())
+	else:
+		for cell in cells(mesh):
+			data_vector[cell.index()] = u(cell.midpoint())
 	v.vector().set_local(data_vector)
 	v.vector().apply('insert')
 	return v
