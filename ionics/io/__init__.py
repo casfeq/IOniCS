@@ -30,7 +30,7 @@ def read_subdomains(msh, file, name_to_read='subdomains'):
 
 def read_function(V, filename, name_to_read):
 	v = Function(V)
-	with XDMFFile(filename) as infile:
+	with XDMFFile('{}.xdmf'.format(filename)) as infile:
 		infile.read_checkpoint(v, name_to_read)
 	return v
 
